@@ -1,0 +1,646 @@
+{
+  "info": {
+    "_postman_id": "c9284a12-87a3-4f91-b6c2-71f01c901234",
+    "name": "FixItNow - Home Services Marketplace API",
+    "description": "Comprehensive, 100% Assignment-Compliant API Collection for FixItNow Home Service Platform.\n\n### Quick Start & {{baseUrl}} Switching:\n1. **Variable Setup**: Check the collection `Variables` tab. `baseUrl` is set to `http://localhost:5000/api` by default. When deploying to Vercel, simply change `baseUrl` to your live URL (e.g., `https://fixitnow.vercel.app/api`) and save.\n2. **Authentication**: After logging in via `POST /auth/login`, copy the returned JWT `token` and paste it into the `token` variable in the `Variables` tab. All protected endpoints (`Bearer {{token}}`) will automatically authenticate!\n\n### Roles Covered:\n- **Customer**: Browse services, book technicians, process Stripe/SSLCommerz payments, track status, and leave reviews.\n- **Technician**: Create/update profile, toggle availability (`isAvailable`), view incoming bookings, and update job status (`ACCEPTED` / `DECLINED` / `IN_PROGRESS` / `COMPLETED`).\n- **Admin**: Oversee all users, ban/unban users, monitor all platform bookings, and manage service categories.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Authentication",
+      "description": "Endpoints for user registration (`Customer`, `Technician`, & `Admin`), login (`JWT Token` generation), and getting authenticated user profile (`/auth/me`). Supports case-insensitive role selection.",
+      "item": [
+        {
+          "name": "1.1 Register New User (Customer / Technician / Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Arafat Admin\",\n  \"email\": \"admin@fixitnow.com\",\n  \"password\": \"admin1234\",\n  \"phone\": \"+8801711111111\",\n  \"address\": \"House 12, Road 5, Dhanmondi, Dhaka, Bangladesh\",\n  \"role\": \"ADMIN\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            },
+            "description": "Register a new user on FixItNow. Supports case-insensitive roles (`admin`, `customer`, `technician` are automatically converted to uppercase).\n\n### 🟢 1. Admin Registration Body (`Arafat Admin`):\n```json\n{\n  \"name\": \"Arafat Admin\",\n  \"email\": \"admin@fixitnow.com\",\n  \"password\": \"admin1234\",\n  \"phone\": \"+8801711111111\",\n  \"address\": \"House 12, Road 5, Dhanmondi, Dhaka, Bangladesh\",\n  \"role\": \"ADMIN\"\n}\n```\n\n### 🔵 2. Customer Registration Body (`Evan Customer`):\n```json\n{\n  \"name\": \"Evan Customer\",\n  \"email\": \"customer@gmail.com\",\n  \"password\": \"pass1234\",\n  \"phone\": \"+8801711111111\",\n  \"address\": \"House 12, Road 5, Dhanmondi, Dhaka, Bangladesh\",\n  \"role\": \"CUSTOMER\"\n}\n```\n\n### 🟠 3. Technician Registration Body (`Devid Technician`):\n```json\n{\n  \"name\": \"Devid Technician\",\n  \"email\": \"technician@gmail.com\",\n  \"password\": \"pass1234\",\n  \"phone\": \"+8801711111111\",\n  \"address\": \"House 12, Road 5, Dhanmondi, Dhaka, Bangladesh\",\n  \"role\": \"TECHNICIAN\"\n}\n```\n\n### Sample Success Response (`201 Created`):\n```json\n{\n  \"success\": true,\n  \"message\": \"User registered successfully\",\n  \"data\": {\n    \"id\": \"e62f2dc4-70e0-4a9e-ac93-ffc3dddbf4a8\",\n    \"name\": \"Arafat Admin\",\n    \"email\": \"admin@fixitnow.com\",\n    \"role\": \"ADMIN\",\n    \"phone\": \"+8801711111111\",\n    \"address\": \"House 12, Road 5, Dhanmondi, Dhaka, Bangladesh\"\n  }\n}\n```"
+          }
+        },
+        {
+          "name": "1.2 Login User (Return JWT Token)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@fixitnow.com\",\n  \"password\": \"admin1234\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            },
+            "description": "Authenticate an existing user (`Admin`, `Customer`, or `Technician`) and retrieve a secure `token` (JWT).\n\n### Request Body Schemas:\n**Admin Login:**\n```json\n{\n  \"email\": \"admin@fixitnow.com\",\n  \"password\": \"admin1234\"\n}\n```\n**Customer Login:**\n```json\n{\n  \"email\": \"customer@gmail.com\",\n  \"password\": \"pass1234\"\n}\n```\n**Technician Login:**\n```json\n{\n  \"email\": \"technician@gmail.com\",\n  \"password\": \"pass1234\"\n}\n```\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"User logged in successfully\",\n  \"data\": {\n    \"accessToken\": \"YOUR_LIVE_JWT_TOKEN_HERE\"\n  }\n}\n```\n> **Note**: Copy the `accessToken` value and paste it into the `token` variable in the `Variables` tab of this collection!"
+          }
+        },
+        {
+          "name": "1.3 Get Current Authenticated User (`/auth/me`)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "me"]
+            },
+            "description": "Fetch details of the currently logged-in user using their Bearer Token.\n\n### Required Header:\n`Authorization: Bearer {{token}}`\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"User profile retrieved successfully\",\n  \"data\": {\n    \"id\": \"e62f2dc4-70e0-4a9e-ac93-ffc3dddbf4a8\",\n    \"name\": \"Arafat Admin\",\n    \"email\": \"admin@fixitnow.com\",\n    \"role\": \"ADMIN\",\n    \"phone\": \"+8801711111111\",\n    \"address\": \"House 12, Road 5, Dhanmondi, Dhaka, Bangladesh\"\n  }\n}\n```"
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Services & Technicians (Public)",
+      "description": "Publicly accessible endpoints for browsing services (`with filters for type, location, rating, and price`), exploring verified technicians (`with availability checks`), viewing detailed profiles (`including reviews`), and listing all service categories.",
+      "item": [
+        {
+          "name": "2.1 Get All Services (With Filters & Pagination)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/services",
+              "host": ["{{baseUrl}}"],
+              "path": ["services"],
+              "query": [
+                {
+                  "key": "searchTerm",
+                  "value": "leakage",
+                  "description": "Filter services by keyword (name or description)",
+                  "disabled": true
+                },
+                {
+                  "key": "minPrice",
+                  "value": "10",
+                  "description": "Minimum price filter",
+                  "disabled": true
+                },
+                {
+                  "key": "maxPrice",
+                  "value": "100",
+                  "description": "Maximum price filter",
+                  "disabled": true
+                },
+                {
+                  "key": "sortBy",
+                  "value": "price",
+                  "description": "Sort by field (price, createdAt, title)",
+                  "disabled": true
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "asc",
+                  "description": "asc or desc",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Retrieve all active services offered across FixItNow. Supports dynamic filtering and sorting.\n\n### Query Parameters (Optional):\n- `searchTerm`: Search across service title or description\n- `categoryId`: Filter by specific category ID\n- `minPrice` / `maxPrice`: Filter by price range\n- `sortBy` / `sortOrder`: e.g. `price` (`asc` or `desc`)\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Services retrieved successfully\",\n  \"data\": [\n    {\n      \"id\": \"1441c439-b193-4120-870f-3cf3530e29ce\",\n      \"title\": \"Pipe Leakage Repair & Replacement\",\n      \"description\": \"Professional plumbing service to fix kitchen and bathroom pipe leaks.\",\n      \"price\": 49.99,\n      \"category\": {\n        \"id\": \"33a1b2c3-...\",\n        \"name\": \"Plumbing\"\n      }\n    }\n  ]\n}\n```"
+          }
+        },
+        {
+          "name": "2.2 Get All Technicians (Public Browse & Filter)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/technicians",
+              "host": ["{{baseUrl}}"],
+              "path": ["technicians"],
+              "query": [
+                {
+                  "key": "isAvailable",
+                  "value": "true",
+                  "description": "Filter strictly by active availability (true/false)",
+                  "disabled": true
+                },
+                {
+                  "key": "searchTerm",
+                  "value": "",
+                  "description": "Search across bio, name, or location/address",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Browse verified technician profiles across FixItNow. Displays live availability (`isAvailable: true/false`), experience years, hourly rates, and user details.\n\n### Query Parameters (Optional):\n- `isAvailable`: `true` to show only currently available technicians; `false` to check busy/offline profiles\n- `searchTerm`: Search by technician name, bio, or address\n- `minRate` / `maxRate`: Filter by hourly rate range\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Technicians retrieved successfully\",\n  \"data\": [\n    {\n      \"id\": \"c5272d94-d2f9-4649-9db3-f0b4484ea669\",\n      \"userId\": \"45657dad-e779-4362-9290-9cf281b957b1\",\n      \"bio\": \"Expert Master Plumber with 10+ years of experience in fixing complex leakage\",\n      \"experienceYears\": 10,\n      \"hourlyRate\": 40,\n      \"isAvailable\": true,\n      \"rating\": 5,\n      \"user\": {\n        \"name\": \"Devid Technician\",\n        \"email\": \"technician@gmail.com\",\n        \"address\": \"House 12, Road 5, Dhanmondi, Dhaka, Bangladesh\"\n      }\n    }\n  ]\n}\n```"
+          }
+        },
+        {
+          "name": "2.3 Get Technician Profile With Reviews (`/technicians/:id`)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/technicians/4ac5e074-e98b-4239-8c15-1db76553d0c1",
+              "host": ["{{baseUrl}}"],
+              "path": ["technicians", "4ac5e074-e98b-4239-8c15-1db76553d0c1"]
+            },
+            "description": "Retrieve comprehensive details of a specific technician (by their `userId` or profile `id`), including all customer `reviews` and average ratings.\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Technician profile details retrieved successfully\",\n  \"data\": {\n    \"id\": \"4ac5e074-e98b-4239-8c15-1db76553d0c1\",\n    \"userId\": \"25ef0edb-585b-4f0e-90d1-3ff4735b0837\",\n    \"bio\": \"Professional Home Service Technician\",\n    \"experienceYears\": 1,\n    \"hourlyRate\": 20,\n    \"isAvailable\": true,\n    \"rating\": 0,\n    \"reviews\": []\n  }\n}\n```"
+          }
+        },
+        {
+          "name": "2.4 Get All Service Categories (`/categories`)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["categories"]
+            },
+            "description": "Fetch all available service categories (Plumbing, Electrical, Cleaning, Painting, Carpentry, etc.) across FixItNow.\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Categories retrieved successfully\",\n  \"data\": [\n    {\n      \"id\": \"33a1b2c3-1111-2222-3333-444455556666\",\n      \"name\": \"Plumbing\",\n      \"description\": \"Pipe leakage, sink installation, and sanitary works\"\n    },\n    {\n      \"id\": \"44b2c3d4-2222-3333-4444-555566667777\",\n      \"name\": \"Electrical\",\n      \"description\": \"Wiring, switchboard repair, appliance installation\"\n    }\n  ]\n}\n```"
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Bookings (Customer Flow)",
+      "description": "Endpoints allowing authenticated customers to book technicians (`POST /bookings`), view their booking history (`GET /bookings` with explicit `bookingId` alias), and inspect exact job details (`GET /bookings/:id`).",
+      "item": [
+        {
+          "name": "3.1 Create New Booking (`POST /bookings`)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"serviceId\": \"529366ac-73c9-4133-86cc-e7b7a951c5a6\",\n  \"technicianId\": \"4ac5e074-e98b-4239-8c15-1db76553d0c1\",\n  \"bookingDate\": \"2026-07-20T10:00:00.000Z\",\n  \"address\": \"House 12, Road 5, Dhanmondi, Dhaka, Bangladesh\",\n  \"notes\": \"Smart switchboard wiring setup and circuit breaker testing needed.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/bookings",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings"]
+            },
+            "description": "Create a new job booking request (`status: REQUESTED`). Requires Customer Bearer Token (`customer@gmail.com`).\n\n### Request Body Schema:\n```json\n{\n  \"serviceId\": \"529366ac-73c9-4133-86cc-e7b7a951c5a6\",\n  \"technicianId\": \"4ac5e074-e98b-4239-8c15-1db76553d0c1\",\n  \"bookingDate\": \"2026-07-20T10:00:00.000Z\",\n  \"address\": \"House 12, Road 5, Dhanmondi, Dhaka, Bangladesh\",\n  \"notes\": \"Smart switchboard wiring setup and circuit breaker testing needed.\"\n}\n```\n\n### Sample Success Response (`201 Created`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Booking created successfully\",\n  \"data\": {\n    \"id\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n    \"bookingId\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n    \"status\": \"REQUESTED\",\n    \"totalPrice\": 60.00,\n    \"customerId\": \"e4cfac41-a357-4bd6-b1ad-521b831c9f6f\",\n    \"technicianId\": \"4ac5e074-e98b-4239-8c15-1db76553d0c1\"\n  }\n}\n```"
+          }
+        },
+        {
+          "name": "3.2 Get Customer Bookings (`GET /bookings`)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/bookings",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings"]
+            },
+            "description": "Retrieve all bookings placed by the authenticated customer. Every booking object explicitly includes `bookingId` alongside `id` to eliminate ID confusion during payment or tracking.\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Bookings retrieved successfully\",\n  \"data\": [\n    {\n      \"id\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n      \"bookingId\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n      \"status\": \"REQUESTED\",\n      \"totalPrice\": 49.99,\n      \"bookingDate\": \"2026-07-20T10:00:00.000Z\",\n      \"service\": {\n        \"title\": \"Pipe Leakage Repair & Replacement\"\n      },\n      \"technician\": {\n        \"name\": \"Devid Technician\",\n        \"phone\": \"+8801711111111\"\n      }\n    }\n  ]\n}\n```"
+          }
+        },
+        {
+          "name": "3.3 Get Single Booking Details (`GET /bookings/:id`)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/bookings/3624ffb7-3013-42f6-9381-909770ac9b67",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings", "3624ffb7-3013-42f6-9381-909770ac9b67"]
+            },
+            "description": "Inspect complete details of a specific booking ID (`id` or `bookingId`). Authorized for the customer (`Evan Customer`) who placed the job or the assigned technician (`Devid Technician`).\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Booking details retrieved successfully\",\n  \"data\": {\n    \"id\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n    \"bookingId\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n    \"status\": \"REQUESTED\",\n    \"totalPrice\": 49.99,\n    \"address\": \"House 12, Road 5, Dhanmondi, Dhaka, Bangladesh\",\n    \"notes\": \"Kitchen sink under-pipe leak, please bring replacement seals.\"\n  }\n}\n```"
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Payments (Stripe / SSLCommerz Integration)",
+      "description": "Mandatory requirement endpoints (`README.md Section 15-28 & 3-FixItNow.md Section 88-95`) for creating Stripe checkout payment sessions (`/payments/create`), confirming transactions (`/payments/confirm`), and viewing payment histories (`/payments`).",
+      "item": [
+        {
+          "name": "4.1 Create Payment Session (`POST /payments/create`)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bookingId\": \"3624ffb7-3013-42f6-9381-909770ac9b67\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/payments/create",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments", "create"]
+            },
+            "description": "Create a Stripe payment intent / checkout session for an accepted booking (`status: ACCEPTED`). Generates a `clientSecret` and simulated transaction checkout.\n\n### Request Body Schema:\n```json\n{\n  \"bookingId\": \"3624ffb7-3013-42f6-9381-909770ac9b67\"\n}\n```\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Payment session created successfully\",\n  \"data\": {\n    \"paymentId\": \"pay_8899001122\",\n    \"clientSecret\": \"pi_3Mtw..._secret_...\",\n    \"amount\": 49.99,\n    \"provider\": \"STRIPE\",\n    \"status\": \"PENDING\"\n  }\n}\n```"
+          }
+        },
+        {
+          "name": "4.2 Confirm Payment Status (`POST /payments/confirm`)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transactionId\": \"cs_test_a1a4J6V2orMNqPwgy43UtNg19hDk4zEXJMCE5Ag2KjVspO3pjjuWwpu2VL\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/payments/confirm",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments", "confirm"]
+            },
+            "description": "Verify/confirm a completed Stripe transaction. Updates the payment record `status` to `COMPLETED` and advances the booking `status` to `PAID`.\n\n### Request Body Schema:\n```json\n{\n  \"transactionId\": \"cs_test_a1a4J6V2orMNqPwgy43UtNg19hDk4zEXJMCE5Ag2KjVspO3pjjuWwpu2VL\"\n}\n```\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Payment confirmed and booking marked as PAID\",\n  \"data\": {\n    \"id\": \"cdb1d39c-bae6-40af-bbda-60f61e1369a2\",\n    \"transactionId\": \"cs_test_a1a4J6V2orMNqPwgy43UtNg19hDk4zEXJMCE5Ag2KjVspO3pjjuWwpu2VL\",\n    \"status\": \"COMPLETED\",\n    \"paidAt\": \"2026-07-09T10:30:00.000Z\"\n  }\n}\n```"
+          }
+        },
+        {
+          "name": "4.3 Get User Payment History (`GET /payments`)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/payments",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments"]
+            },
+            "description": "Retrieve all payment records belonging to the authenticated user (`Customer` or `Technician`).\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Payment history retrieved successfully\",\n  \"data\": [\n    {\n      \"id\": \"cdb1d39c-bae6-40af-bbda-60f61e1369a2\",\n      \"transactionId\": \"cs_test_a1a4J6V2orMNqPwgy43UtNg19hDk4zEXJMCE5Ag2KjVspO3pjjuWwpu2VL\",\n      \"amount\": 60,\n      \"provider\": \"STRIPE\",\n      \"status\": \"COMPLETED\",\n      \"paidAt\": \"2026-07-09T10:30:00.000Z\",\n      \"booking\": {\n        \"id\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n        \"status\": \"PAID\"\n      }\n    }\n  ]\n}\n```"
+          }
+        },
+        {
+          "name": "4.4 Get Single Payment Details (`GET /payments/:id`)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/payments/cdb1d39c-bae6-40af-bbda-60f61e1369a2",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments", "cdb1d39c-bae6-40af-bbda-60f61e1369a2"]
+            },
+            "description": "Inspect complete receipt and transaction details for a specific payment ID.\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Payment details retrieved successfully\",\n  \"data\": {\n    \"id\": \"cdb1d39c-bae6-40af-bbda-60f61e1369a2\",\n    \"transactionId\": \"cs_test_a1a4J6V2orMNqPwgy43UtNg19hDk4zEXJMCE5Ag2KjVspO3pjjuWwpu2VL\",\n    \"amount\": 60,\n    \"provider\": \"STRIPE\",\n    \"status\": \"COMPLETED\",\n    \"paidAt\": \"2026-07-09T10:30:00.000Z\"\n  }\n}\n```"
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Technician Management (Private Flow)",
+      "description": "Endpoints dedicated to authenticated technicians (`Role: TECHNICIAN`) for managing their service profile (`PUT /technician/profile`), toggling active availability (`PUT /technician/availability`), inspecting incoming jobs (`GET /technician/bookings`), and advancing booking lifecycle status (`PATCH /technician/bookings/:id`).",
+      "item": [
+        {
+          "name": "5.1 Update Profile & Hourly Rate (`PUT/PATCH /technician/profile`)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bio\": \"Expert Master Plumber with 10+ years of experience in fixing complex leakage\",\n  \"experienceYears\": 10,\n  \"hourlyRate\": 45,\n  \"isAvailable\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/technician/profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["technician", "profile"]
+            },
+            "description": "Update the technician's professional profile (`bio`, `experienceYears`, `hourlyRate`, and `isAvailable`). Works seamlessly across both `PUT` and `PATCH` methods (`and /api/technicians/profile` compatibility alias).\n\n### Request Body Schema:\n```json\n{\n  \"bio\": \"Expert Master Plumber with 10+ years of experience in fixing complex leakage\",\n  \"experienceYears\": 10,\n  \"hourlyRate\": 45,\n  \"isAvailable\": true\n}\n```\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Technician profile updated successfully\",\n  \"data\": {\n    \"id\": \"c5272d94-d2f9-4649-9db3-f0b4484ea669\",\n    \"userId\": \"45657dad-e779-4362-9290-9cf281b957b1\",\n    \"bio\": \"Expert Master Plumber with 10+ years of experience in fixing complex leakage\",\n    \"experienceYears\": 10,\n    \"hourlyRate\": 45,\n    \"isAvailable\": true\n  }\n}\n```"
+          }
+        },
+        {
+          "name": "5.2 Create New Service (`POST /services`)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Professional CCTV Installation & Wiring\",\n  \"description\": \"Complete setup of 4 to 8 HD CCTV cameras with DVR configuration, mobile app linking, and hidden wiring.\",\n  \"price\": 49.99,\n  \"duration\": 2,\n  \"categoryId\": \"e2b0e04f-6692-4ccb-bdcc-9d78a0b39a43\",\n  \"technicianId\": \"4ac5e074-e98b-4239-8c15-1db76553d0c1\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/services",
+              "host": ["{{baseUrl}}"],
+              "path": ["services"]
+            },
+            "description": "Create and publish a new service across the marketplace as an authenticated Technician or Admin (`Role: TECHNICIAN / ADMIN`).\n\n### Request Body Schema:\n```json\n{\n  \"title\": \"Professional CCTV Installation & Wiring\",\n  \"description\": \"Complete setup of 4 to 8 HD CCTV cameras with DVR configuration, mobile app linking, and hidden wiring.\",\n  \"price\": 49.99,\n  \"duration\": 2,\n  \"categoryId\": \"e2b0e04f-6692-4ccb-bdcc-9d78a0b39a43\",\n  \"technicianId\": \"4ac5e074-e98b-4239-8c15-1db76553d0c1\"\n}\n```\n\n### Sample Success Response (`201 Created`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Service created successfully\",\n  \"data\": {\n    \"id\": \"srv_99887766\",\n    \"title\": \"Professional CCTV Installation & Wiring\",\n    \"description\": \"Complete setup of 4 to 8 HD CCTV cameras with DVR configuration, mobile app linking, and hidden wiring.\",\n    \"price\": 49.99,\n    \"duration\": 2,\n    \"categoryId\": \"e2b0e04f-6692-4ccb-bdcc-9d78a0b39a43\",\n    \"technicianId\": \"4ac5e074-e98b-4239-8c15-1db76553d0c1\"\n  }\n}\n```"
+          }
+        },
+        {
+          "name": "5.3 Toggle Availability (`PUT/PATCH /technician/availability`)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isAvailable\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/technician/availability",
+              "host": ["{{baseUrl}}"],
+              "path": ["technician", "availability"]
+            },
+            "description": "Switch the technician's availability status between `true` (online/ready for jobs) and `false` (busy/offline). When `false`, the profile appears offline across public listings.\n\n### Request Body Schema (`true` or `false`):\n```json\n{\n  \"isAvailable\": false\n}\n```\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Technician profile updated successfully\",\n  \"data\": {\n    \"id\": \"c5272d94-d2f9-4649-9db3-f0b4484ea669\",\n    \"isAvailable\": false,\n    \"hourlyRate\": 45\n  }\n}\n```"
+          }
+        },
+        {
+          "name": "5.4 Get Technician Bookings (`GET /technician/bookings`)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/technician/bookings",
+              "host": ["{{baseUrl}}"],
+              "path": ["technician", "bookings"]
+            },
+            "description": "Retrieve all incoming and past bookings assigned to the logged-in technician. Includes explicit `bookingId` alias alongside `id` and complete customer details.\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Technician bookings retrieved successfully\",\n  \"data\": [\n    {\n      \"id\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n      \"bookingId\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n      \"status\": \"REQUESTED\",\n      \"totalPrice\": 49.99,\n      \"bookingDate\": \"2026-07-20T10:00:00.000Z\",\n      \"customer\": {\n        \"name\": \"Evan Customer\",\n        \"phone\": \"+8801711111111\",\n        \"address\": \"House 12, Road 5, Dhanmondi, Dhaka, Bangladesh\"\n      }\n    }\n  ]\n}\n```"
+          }
+        },
+        {
+          "name": "5.5 Get Technician Single Booking (`GET /technician/bookings/:id`)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/technician/bookings/3624ffb7-3013-42f6-9381-909770ac9b67",
+              "host": ["{{baseUrl}}"],
+              "path": ["technician", "bookings", "3624ffb7-3013-42f6-9381-909770ac9b67"]
+            },
+            "description": "Retrieve exact details for a single booking assigned to the technician (`200 OK`).\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Booking details retrieved successfully\",\n  \"data\": {\n    \"id\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n    \"bookingId\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n    \"status\": \"REQUESTED\",\n    \"totalPrice\": 49.99\n  }\n}\n```"
+          }
+        },
+        {
+          "name": "5.6 Update Booking Status (`PATCH /technician/bookings/:id`)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"ACCEPTED\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/technician/bookings/3624ffb7-3013-42f6-9381-909770ac9b67",
+              "host": ["{{baseUrl}}"],
+              "path": ["technician", "bookings", "3624ffb7-3013-42f6-9381-909770ac9b67"]
+            },
+            "description": "Advance the status of a booking. Supports both direct `/:id` and `/:id/status` endpoints.\n\n### Allowed State Transitions:\n- `REQUESTED` ➔ `ACCEPTED` or `DECLINED`\n- `ACCEPTED` / `PAID` ➔ `IN_PROGRESS`\n- `IN_PROGRESS` ➔ `COMPLETED`\n\n### Request Body Schema:\n```json\n{\n  \"status\": \"ACCEPTED\"\n}\n```\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Booking status updated successfully\",\n  \"data\": {\n    \"id\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n    \"bookingId\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n    \"status\": \"ACCEPTED\",\n    \"totalPrice\": 49.99\n  }\n}\n```"
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Reviews (Customer Feedback)",
+      "description": "Endpoints allowing authenticated customers (`Evan Customer`) to rate and review technicians after job completion (`status: COMPLETED`).",
+      "item": [
+        {
+          "name": "6.1 Create Review (`POST /reviews`)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"technicianId\": \"4ac5e074-e98b-4239-8c15-1db76553d0c1\",\n  \"bookingId\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n  \"rating\": 5,\n  \"comment\": \"Outstanding service! Fixed the kitchen sink leak in under 20 minutes with zero hassle.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reviews",
+              "host": ["{{baseUrl}}"],
+              "path": ["reviews"]
+            },
+            "description": "Submit a 1 to 5 star rating and comment for a completed job. Automatically updates the technician's overall `rating` and `totalReviews`.\n\n### Request Body Schema:\n```json\n{\n  \"technicianId\": \"4ac5e074-e98b-4239-8c15-1db76553d0c1\",\n  \"bookingId\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n  \"rating\": 5,\n  \"comment\": \"Outstanding service! Fixed the kitchen sink leak in under 20 minutes with zero hassle.\"\n}\n```\n\n### Sample Success Response (`201 Created`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Review created successfully\",\n  \"data\": {\n    \"id\": \"rev_998877\",\n    \"rating\": 5,\n    \"comment\": \"Outstanding service! Fixed the kitchen sink leak in under 20 minutes with zero hassle.\",\n    \"technicianId\": \"4ac5e074-e98b-4239-8c15-1db76553d0c1\",\n    \"customerId\": \"e4cfac41-a357-4bd6-b1ad-521b831c9f6f\"\n  }\n}\n```"
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Admin Management (`Role: ADMIN`)",
+      "description": "Platform governance endpoints (`3-FixItNow.md Section 109-117`). Requires Admin Bearer Token (`admin@fixitnow.com`). Allows overseeing all registered users, moderating status (`ban/unban`), monitoring global bookings, and creating service categories.",
+      "item": [
+        {
+          "name": "7.1 Get All Users (`GET /admin/users`)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "users"]
+            },
+            "description": "Retrieve all registered users across FixItNow (`Customers`, `Technicians`, and `Admins`).\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Users retrieved successfully\",\n  \"data\": [\n    {\n      \"id\": \"e62f2dc4-70e0-4a9e-ac93-ffc3dddbf4a8\",\n      \"name\": \"Arafat Admin\",\n      \"email\": \"admin@fixitnow.com\",\n      \"role\": \"ADMIN\",\n      \"isBanned\": false\n    }\n  ]\n}\n```"
+          }
+        },
+        {
+          "name": "7.2 Update User Status - Ban/Unban (`PATCH /admin/users/:id`)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isBanned\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/users/e4cfac41-a357-4bd6-b1ad-521b831c9f6f",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "users", "e4cfac41-a357-4bd6-b1ad-521b831c9f6f"]
+            },
+            "description": "Ban or unban a user. When `isBanned: true`, the user is blocked from logging in or performing actions across FixItNow.\n\n### Request Body Schema (`true` to ban, `false` to unban):\n```json\n{\n  \"isBanned\": true\n}\n```\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"User status updated successfully\",\n  \"data\": {\n    \"id\": \"e4cfac41-a357-4bd6-b1ad-521b831c9f6f\",\n    \"name\": \"Evan Customer\",\n    \"isBanned\": true\n  }\n}\n```"
+          }
+        },
+        {
+          "name": "7.3 Get All Platform Bookings (`GET /admin/bookings`)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/bookings",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "bookings"]
+            },
+            "description": "Monitor and inspect every single booking placed across the FixItNow platform (`with explicit bookingId alias`).\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"All bookings retrieved successfully\",\n  \"data\": [\n    {\n      \"id\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n      \"bookingId\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n      \"status\": \"REQUESTED\",\n      \"totalPrice\": 49.99,\n      \"customer\": {\n        \"name\": \"Evan Customer\"\n      },\n      \"technician\": {\n        \"name\": \"Devid Technician\"\n      }\n    }\n  ]\n}\n```"
+          }
+        },
+        {
+          "name": "7.4 Get All Service Categories Admin (`GET /admin/categories`)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "categories"]
+            },
+            "description": "Retrieve all service categories as an Admin (`Arafat Admin`).\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Categories retrieved successfully\",\n  \"data\": [\n    {\n      \"id\": \"33a1b2c3-...\",\n      \"name\": \"Plumbing\",\n      \"description\": \"Pipe leakage, sink installation, and sanitary works\"\n    }\n  ]\n}\n```"
+          }
+        },
+        {
+          "name": "7.5 Create New Service Category (`POST /admin/categories`)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Carpentry & Woodwork\",\n  \"description\": \"Furniture repair, door/window fitting, and custom carpentry services.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "categories"]
+            },
+            "description": "Create and publish a brand new service category across the platform. Admin authorization required (`Bearer {{token}}`).\n\n### Request Body Schema:\n```json\n{\n  \"name\": \"Carpentry & Woodwork\",\n  \"description\": \"Furniture repair, door/window fitting, and custom carpentry services.\"\n}\n```\n\n### Sample Success Response (`201 Created`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Category created successfully\",\n  \"data\": {\n    \"id\": \"cat_556677\",\n    \"name\": \"Carpentry & Woodwork\",\n    \"description\": \"Furniture repair, door/window fitting, and custom carpentry services.\",\n    \"createdAt\": \"2026-07-09T10:00:00.000Z\"\n  }\n}\n```"
+          }
+        }
+      ]
+    }
+  ]
+}
