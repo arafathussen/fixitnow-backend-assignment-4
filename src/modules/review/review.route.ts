@@ -1,0 +1,19 @@
+import express from "express";
+import { Role } from "../../../generated/prisma/client";
+import { auth } from "../../middlewares/auth";
+import { validateRequest } from "../../middlewares/validateRequest";
+import { reviewController } from "./review.controller";
+import { reviewValidation } from "./review.validation";
+
+const router = express.Router();
+
+router.post(
+    "/",
+    auth(Role.CUSTOMER),
+    validateRequest(reviewValidation.createReviewSchema),
+    reviewController.createReview
+);
+
+router.get("/", reviewController.getAllReviews);
+
+export const reviewRoutes = router;
