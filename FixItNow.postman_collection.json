@@ -2,13 +2,13 @@
   "info": {
     "_postman_id": "c9284a12-87a3-4f91-b6c2-71f01c901234",
     "name": "FixItNow - Home Services Marketplace API",
-    "description": "Comprehensive, 100% Assignment-Compliant API Collection for FixItNow Home Service Platform.\n\n### Quick Start & {{baseUrl}} Switching:\n1. **Variable Setup**: Check the collection `Variables` tab. `baseUrl` is set to `http://localhost:5000/api` by default. When deploying to Vercel, simply change `baseUrl` to your live URL (e.g., `https://fixitnow.vercel.app/api`) and save.\n2. **Authentication**: After logging in via `POST /auth/login`, copy the returned JWT `token` and paste it into the `token` variable in the `Variables` tab. All protected endpoints (`Bearer {{token}}`) will automatically authenticate!\n\n### Roles Covered:\n- **Customer**: Browse services, book technicians, process Stripe/SSLCommerz payments, track status, and leave reviews.\n- **Technician**: Create/update profile, toggle availability (`isAvailable`), view incoming bookings, and update job status (`ACCEPTED` / `DECLINED` / `IN_PROGRESS` / `COMPLETED`).\n- **Admin**: Oversee all users, ban/unban users, monitor all platform bookings, and manage service categories.",
+    "description": "Comprehensive, 100% Assignment-Compliant API Collection for FixItNow Home Service Platform.\n\n### Quick Start & {{baseUrl}} Switching:\n1. **Variable Setup (`baseUrl`)**: Go to the collection `Variables` tab. You can easily switch between environments by changing the `Current value` box:\n   * **Local Environment:** Set `baseUrl` to `http://localhost:5000`\n   * **Live Render Cloud:** Set `baseUrl` to `https://fixitnow-api-gh7m.onrender.com`\n   *(Make sure to press `Ctrl + S` / `Cmd + S` or click the `Save` button after making any changes!)*\n\n2. **Authentication (`token`)**: After logging in via `POST /api/auth/login`, copy the returned JWT `token` and paste it into the `token` variable in the `Variables` tab. All protected endpoints (`Bearer {{token}}`) will automatically authenticate!\n\n### Roles Covered:\n- **Customer**: Browse services, book technicians, process Stripe/SSLCommerz payments, track status, and leave reviews.\n- **Technician**: Create/update profile, toggle availability (`isAvailable`), view incoming bookings, and update job status (`ACCEPTED` / `DECLINED` / `IN_PROGRESS` / `COMPLETED`).\n- **Admin**: Oversee all users, ban/unban users, monitor all platform bookings, and manage service categories.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
     {
       "key": "baseUrl",
-      "value": "http://localhost:5000/api",
+      "value": "http://localhost:5000",
       "type": "string"
     },
     {
@@ -37,11 +37,17 @@
               "raw": "{\n  \"name\": \"Arafat Admin\",\n  \"email\": \"admin@fixitnow.com\",\n  \"password\": \"admin1234\",\n  \"phone\": \"+8801711111111\",\n  \"address\": \"House 12, Road 5, Dhanmondi, Dhaka, Bangladesh\",\n  \"role\": \"ADMIN\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/auth/register",
-              "host": ["{{baseUrl}}"],
-              "path": ["auth", "register"]
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
             },
-            "description": "Register a new user on FixItNow. Supports case-insensitive roles (`admin`, `customer`, `technician` are automatically converted to uppercase).\n\n### 🟢 1. Admin Registration Body (`Arafat Admin`):\n```json\n{\n  \"name\": \"Arafat Admin\",\n  \"email\": \"admin@fixitnow.com\",\n  \"password\": \"admin1234\",\n  \"phone\": \"+8801711111111\",\n  \"address\": \"House 12, Road 5, Dhanmondi, Dhaka, Bangladesh\",\n  \"role\": \"ADMIN\"\n}\n```\n\n### 🔵 2. Customer Registration Body (`Evan Customer`):\n```json\n{\n  \"name\": \"Evan Customer\",\n  \"email\": \"customer@gmail.com\",\n  \"password\": \"pass1234\",\n  \"phone\": \"+8801711111111\",\n  \"address\": \"House 12, Road 5, Dhanmondi, Dhaka, Bangladesh\",\n  \"role\": \"CUSTOMER\"\n}\n```\n\n### 🟠 3. Technician Registration Body (`Devid Technician`):\n```json\n{\n  \"name\": \"Devid Technician\",\n  \"email\": \"technician@gmail.com\",\n  \"password\": \"pass1234\",\n  \"phone\": \"+8801711111111\",\n  \"address\": \"House 12, Road 5, Dhanmondi, Dhaka, Bangladesh\",\n  \"role\": \"TECHNICIAN\"\n}\n```\n\n### Sample Success Response (`201 Created`):\n```json\n{\n  \"success\": true,\n  \"message\": \"User registered successfully\",\n  \"data\": {\n    \"id\": \"e62f2dc4-70e0-4a9e-ac93-ffc3dddbf4a8\",\n    \"name\": \"Arafat Admin\",\n    \"email\": \"admin@fixitnow.com\",\n    \"role\": \"ADMIN\",\n    \"phone\": \"+8801711111111\",\n    \"address\": \"House 12, Road 5, Dhanmondi, Dhaka, Bangladesh\"\n  }\n}\n```"
+            "description": "Register a new user on FixItNow. Supports case-insensitive roles (`admin`, `customer`, `technician` are automatically converted to uppercase).\n\n### \ud83d\udfe2 1. Admin Registration Body (`Arafat Admin`):\n```json\n{\n  \"name\": \"Arafat Admin\",\n  \"email\": \"admin@fixitnow.com\",\n  \"password\": \"admin1234\",\n  \"phone\": \"+8801711111111\",\n  \"address\": \"House 12, Road 5, Dhanmondi, Dhaka, Bangladesh\",\n  \"role\": \"ADMIN\"\n}\n```\n\n### \ud83d\udd35 2. Customer Registration Body (`Evan Customer`):\n```json\n{\n  \"name\": \"Evan Customer\",\n  \"email\": \"customer@gmail.com\",\n  \"password\": \"pass1234\",\n  \"phone\": \"+8801711111111\",\n  \"address\": \"House 12, Road 5, Dhanmondi, Dhaka, Bangladesh\",\n  \"role\": \"CUSTOMER\"\n}\n```\n\n### \ud83d\udfe0 3. Technician Registration Body (`Devid Technician`):\n```json\n{\n  \"name\": \"Devid Technician\",\n  \"email\": \"technician@gmail.com\",\n  \"password\": \"pass1234\",\n  \"phone\": \"+8801711111111\",\n  \"address\": \"House 12, Road 5, Dhanmondi, Dhaka, Bangladesh\",\n  \"role\": \"TECHNICIAN\"\n}\n```\n\n### Sample Success Response (`201 Created`):\n```json\n{\n  \"success\": true,\n  \"message\": \"User registered successfully\",\n  \"data\": {\n    \"id\": \"e62f2dc4-70e0-4a9e-ac93-ffc3dddbf4a8\",\n    \"name\": \"Arafat Admin\",\n    \"email\": \"admin@fixitnow.com\",\n    \"role\": \"ADMIN\",\n    \"phone\": \"+8801711111111\",\n    \"address\": \"House 12, Road 5, Dhanmondi, Dhaka, Bangladesh\"\n  }\n}\n```"
           }
         },
         {
@@ -59,9 +65,15 @@
               "raw": "{\n  \"email\": \"admin@fixitnow.com\",\n  \"password\": \"admin1234\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/auth/login",
-              "host": ["{{baseUrl}}"],
-              "path": ["auth", "login"]
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
             },
             "description": "Authenticate an existing user (`Admin`, `Customer`, or `Technician`) and retrieve a secure `token` (JWT).\n\n### Request Body Schemas:\n**Admin Login:**\n```json\n{\n  \"email\": \"admin@fixitnow.com\",\n  \"password\": \"admin1234\"\n}\n```\n**Customer Login:**\n```json\n{\n  \"email\": \"customer@gmail.com\",\n  \"password\": \"pass1234\"\n}\n```\n**Technician Login:**\n```json\n{\n  \"email\": \"technician@gmail.com\",\n  \"password\": \"pass1234\"\n}\n```\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"User logged in successfully\",\n  \"data\": {\n    \"accessToken\": \"YOUR_LIVE_JWT_TOKEN_HERE\"\n  }\n}\n```\n> **Note**: Copy the `accessToken` value and paste it into the `token` variable in the `Variables` tab of this collection!"
           }
@@ -77,9 +89,15 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/auth/me",
-              "host": ["{{baseUrl}}"],
-              "path": ["auth", "me"]
+              "raw": "{{baseUrl}}/api/auth/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
             },
             "description": "Fetch details of the currently logged-in user using their Bearer Token.\n\n### Required Header:\n`Authorization: Bearer {{token}}`\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"User profile retrieved successfully\",\n  \"data\": {\n    \"id\": \"e62f2dc4-70e0-4a9e-ac93-ffc3dddbf4a8\",\n    \"name\": \"Arafat Admin\",\n    \"email\": \"admin@fixitnow.com\",\n    \"role\": \"ADMIN\",\n    \"phone\": \"+8801711111111\",\n    \"address\": \"House 12, Road 5, Dhanmondi, Dhaka, Bangladesh\"\n  }\n}\n```"
           }
@@ -96,9 +114,14 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/services",
-              "host": ["{{baseUrl}}"],
-              "path": ["services"],
+              "raw": "{{baseUrl}}/api/services",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "services"
+              ],
               "query": [
                 {
                   "key": "searchTerm",
@@ -141,9 +164,14 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/technicians",
-              "host": ["{{baseUrl}}"],
-              "path": ["technicians"],
+              "raw": "{{baseUrl}}/api/technicians",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "technicians"
+              ],
               "query": [
                 {
                   "key": "isAvailable",
@@ -168,9 +196,15 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/technicians/4ac5e074-e98b-4239-8c15-1db76553d0c1",
-              "host": ["{{baseUrl}}"],
-              "path": ["technicians", "4ac5e074-e98b-4239-8c15-1db76553d0c1"]
+              "raw": "{{baseUrl}}/api/technicians/4ac5e074-e98b-4239-8c15-1db76553d0c1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "technicians",
+                "4ac5e074-e98b-4239-8c15-1db76553d0c1"
+              ]
             },
             "description": "Retrieve comprehensive details of a specific technician (by their `userId` or profile `id`), including all customer `reviews` and average ratings.\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Technician profile details retrieved successfully\",\n  \"data\": {\n    \"id\": \"4ac5e074-e98b-4239-8c15-1db76553d0c1\",\n    \"userId\": \"25ef0edb-585b-4f0e-90d1-3ff4735b0837\",\n    \"bio\": \"Professional Home Service Technician\",\n    \"experienceYears\": 1,\n    \"hourlyRate\": 20,\n    \"isAvailable\": true,\n    \"rating\": 0,\n    \"reviews\": []\n  }\n}\n```"
           }
@@ -181,9 +215,14 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/categories",
-              "host": ["{{baseUrl}}"],
-              "path": ["categories"]
+              "raw": "{{baseUrl}}/api/categories",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "categories"
+              ]
             },
             "description": "Fetch all available service categories (Plumbing, Electrical, Cleaning, Painting, Carpentry, etc.) across FixItNow.\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Categories retrieved successfully\",\n  \"data\": [\n    {\n      \"id\": \"33a1b2c3-1111-2222-3333-444455556666\",\n      \"name\": \"Plumbing\",\n      \"description\": \"Pipe leakage, sink installation, and sanitary works\"\n    },\n    {\n      \"id\": \"44b2c3d4-2222-3333-4444-555566667777\",\n      \"name\": \"Electrical\",\n      \"description\": \"Wiring, switchboard repair, appliance installation\"\n    }\n  ]\n}\n```"
           }
@@ -213,9 +252,14 @@
               "raw": "{\n  \"serviceId\": \"529366ac-73c9-4133-86cc-e7b7a951c5a6\",\n  \"technicianId\": \"4ac5e074-e98b-4239-8c15-1db76553d0c1\",\n  \"bookingDate\": \"2026-07-20T10:00:00.000Z\",\n  \"address\": \"House 12, Road 5, Dhanmondi, Dhaka, Bangladesh\",\n  \"notes\": \"Smart switchboard wiring setup and circuit breaker testing needed.\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/bookings",
-              "host": ["{{baseUrl}}"],
-              "path": ["bookings"]
+              "raw": "{{baseUrl}}/api/bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bookings"
+              ]
             },
             "description": "Create a new job booking request (`status: REQUESTED`). Requires Customer Bearer Token (`customer@gmail.com`).\n\n### Request Body Schema:\n```json\n{\n  \"serviceId\": \"529366ac-73c9-4133-86cc-e7b7a951c5a6\",\n  \"technicianId\": \"4ac5e074-e98b-4239-8c15-1db76553d0c1\",\n  \"bookingDate\": \"2026-07-20T10:00:00.000Z\",\n  \"address\": \"House 12, Road 5, Dhanmondi, Dhaka, Bangladesh\",\n  \"notes\": \"Smart switchboard wiring setup and circuit breaker testing needed.\"\n}\n```\n\n### Sample Success Response (`201 Created`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Booking created successfully\",\n  \"data\": {\n    \"id\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n    \"bookingId\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n    \"status\": \"REQUESTED\",\n    \"totalPrice\": 60.00,\n    \"customerId\": \"e4cfac41-a357-4bd6-b1ad-521b831c9f6f\",\n    \"technicianId\": \"4ac5e074-e98b-4239-8c15-1db76553d0c1\"\n  }\n}\n```"
           }
@@ -231,9 +275,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/bookings",
-              "host": ["{{baseUrl}}"],
-              "path": ["bookings"]
+              "raw": "{{baseUrl}}/api/bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bookings"
+              ]
             },
             "description": "Retrieve all bookings placed by the authenticated customer. Every booking object explicitly includes `bookingId` alongside `id` to eliminate ID confusion during payment or tracking.\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Bookings retrieved successfully\",\n  \"data\": [\n    {\n      \"id\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n      \"bookingId\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n      \"status\": \"REQUESTED\",\n      \"totalPrice\": 49.99,\n      \"bookingDate\": \"2026-07-20T10:00:00.000Z\",\n      \"service\": {\n        \"title\": \"Pipe Leakage Repair & Replacement\"\n      },\n      \"technician\": {\n        \"name\": \"Devid Technician\",\n        \"phone\": \"+8801711111111\"\n      }\n    }\n  ]\n}\n```"
           }
@@ -249,9 +298,15 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/bookings/3624ffb7-3013-42f6-9381-909770ac9b67",
-              "host": ["{{baseUrl}}"],
-              "path": ["bookings", "3624ffb7-3013-42f6-9381-909770ac9b67"]
+              "raw": "{{baseUrl}}/api/bookings/3624ffb7-3013-42f6-9381-909770ac9b67",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bookings",
+                "3624ffb7-3013-42f6-9381-909770ac9b67"
+              ]
             },
             "description": "Inspect complete details of a specific booking ID (`id` or `bookingId`). Authorized for the customer (`Evan Customer`) who placed the job or the assigned technician (`Devid Technician`).\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Booking details retrieved successfully\",\n  \"data\": {\n    \"id\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n    \"bookingId\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n    \"status\": \"REQUESTED\",\n    \"totalPrice\": 49.99,\n    \"address\": \"House 12, Road 5, Dhanmondi, Dhaka, Bangladesh\",\n    \"notes\": \"Kitchen sink under-pipe leak, please bring replacement seals.\"\n  }\n}\n```"
           }
@@ -281,9 +336,15 @@
               "raw": "{\n  \"bookingId\": \"3624ffb7-3013-42f6-9381-909770ac9b67\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/payments/create",
-              "host": ["{{baseUrl}}"],
-              "path": ["payments", "create"]
+              "raw": "{{baseUrl}}/api/payments/create",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "payments",
+                "create"
+              ]
             },
             "description": "Create a Stripe payment intent / checkout session for an accepted booking (`status: ACCEPTED`). Generates a `clientSecret` and simulated transaction checkout.\n\n### Request Body Schema:\n```json\n{\n  \"bookingId\": \"3624ffb7-3013-42f6-9381-909770ac9b67\"\n}\n```\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Payment session created successfully\",\n  \"data\": {\n    \"paymentId\": \"pay_8899001122\",\n    \"clientSecret\": \"pi_3Mtw..._secret_...\",\n    \"amount\": 49.99,\n    \"provider\": \"STRIPE\",\n    \"status\": \"PENDING\"\n  }\n}\n```"
           }
@@ -307,9 +368,15 @@
               "raw": "{\n  \"transactionId\": \"cs_test_a1a4J6V2orMNqPwgy43UtNg19hDk4zEXJMCE5Ag2KjVspO3pjjuWwpu2VL\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/payments/confirm",
-              "host": ["{{baseUrl}}"],
-              "path": ["payments", "confirm"]
+              "raw": "{{baseUrl}}/api/payments/confirm",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "payments",
+                "confirm"
+              ]
             },
             "description": "Verify/confirm a completed Stripe transaction. Updates the payment record `status` to `COMPLETED` and advances the booking `status` to `PAID`.\n\n### Request Body Schema:\n```json\n{\n  \"transactionId\": \"cs_test_a1a4J6V2orMNqPwgy43UtNg19hDk4zEXJMCE5Ag2KjVspO3pjjuWwpu2VL\"\n}\n```\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Payment confirmed and booking marked as PAID\",\n  \"data\": {\n    \"id\": \"cdb1d39c-bae6-40af-bbda-60f61e1369a2\",\n    \"transactionId\": \"cs_test_a1a4J6V2orMNqPwgy43UtNg19hDk4zEXJMCE5Ag2KjVspO3pjjuWwpu2VL\",\n    \"status\": \"COMPLETED\",\n    \"paidAt\": \"2026-07-09T10:30:00.000Z\"\n  }\n}\n```"
           }
@@ -325,9 +392,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/payments",
-              "host": ["{{baseUrl}}"],
-              "path": ["payments"]
+              "raw": "{{baseUrl}}/api/payments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "payments"
+              ]
             },
             "description": "Retrieve all payment records belonging to the authenticated user (`Customer` or `Technician`).\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Payment history retrieved successfully\",\n  \"data\": [\n    {\n      \"id\": \"cdb1d39c-bae6-40af-bbda-60f61e1369a2\",\n      \"transactionId\": \"cs_test_a1a4J6V2orMNqPwgy43UtNg19hDk4zEXJMCE5Ag2KjVspO3pjjuWwpu2VL\",\n      \"amount\": 60,\n      \"provider\": \"STRIPE\",\n      \"status\": \"COMPLETED\",\n      \"paidAt\": \"2026-07-09T10:30:00.000Z\",\n      \"booking\": {\n        \"id\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n        \"status\": \"PAID\"\n      }\n    }\n  ]\n}\n```"
           }
@@ -343,9 +415,15 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/payments/cdb1d39c-bae6-40af-bbda-60f61e1369a2",
-              "host": ["{{baseUrl}}"],
-              "path": ["payments", "cdb1d39c-bae6-40af-bbda-60f61e1369a2"]
+              "raw": "{{baseUrl}}/api/payments/cdb1d39c-bae6-40af-bbda-60f61e1369a2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "payments",
+                "cdb1d39c-bae6-40af-bbda-60f61e1369a2"
+              ]
             },
             "description": "Inspect complete receipt and transaction details for a specific payment ID.\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Payment details retrieved successfully\",\n  \"data\": {\n    \"id\": \"cdb1d39c-bae6-40af-bbda-60f61e1369a2\",\n    \"transactionId\": \"cs_test_a1a4J6V2orMNqPwgy43UtNg19hDk4zEXJMCE5Ag2KjVspO3pjjuWwpu2VL\",\n    \"amount\": 60,\n    \"provider\": \"STRIPE\",\n    \"status\": \"COMPLETED\",\n    \"paidAt\": \"2026-07-09T10:30:00.000Z\"\n  }\n}\n```"
           }
@@ -375,9 +453,15 @@
               "raw": "{\n  \"bio\": \"Expert Master Plumber with 10+ years of experience in fixing complex leakage\",\n  \"experienceYears\": 10,\n  \"hourlyRate\": 45,\n  \"isAvailable\": true\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/technician/profile",
-              "host": ["{{baseUrl}}"],
-              "path": ["technician", "profile"]
+              "raw": "{{baseUrl}}/api/technician/profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "technician",
+                "profile"
+              ]
             },
             "description": "Update the technician's professional profile (`bio`, `experienceYears`, `hourlyRate`, and `isAvailable`). Works seamlessly across both `PUT` and `PATCH` methods (`and /api/technicians/profile` compatibility alias).\n\n### Request Body Schema:\n```json\n{\n  \"bio\": \"Expert Master Plumber with 10+ years of experience in fixing complex leakage\",\n  \"experienceYears\": 10,\n  \"hourlyRate\": 45,\n  \"isAvailable\": true\n}\n```\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Technician profile updated successfully\",\n  \"data\": {\n    \"id\": \"c5272d94-d2f9-4649-9db3-f0b4484ea669\",\n    \"userId\": \"45657dad-e779-4362-9290-9cf281b957b1\",\n    \"bio\": \"Expert Master Plumber with 10+ years of experience in fixing complex leakage\",\n    \"experienceYears\": 10,\n    \"hourlyRate\": 45,\n    \"isAvailable\": true\n  }\n}\n```"
           }
@@ -401,9 +485,14 @@
               "raw": "{\n  \"title\": \"Professional CCTV Installation & Wiring\",\n  \"description\": \"Complete setup of 4 to 8 HD CCTV cameras with DVR configuration, mobile app linking, and hidden wiring.\",\n  \"price\": 49.99,\n  \"duration\": 2,\n  \"categoryId\": \"e2b0e04f-6692-4ccb-bdcc-9d78a0b39a43\",\n  \"technicianId\": \"4ac5e074-e98b-4239-8c15-1db76553d0c1\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/services",
-              "host": ["{{baseUrl}}"],
-              "path": ["services"]
+              "raw": "{{baseUrl}}/api/services",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "services"
+              ]
             },
             "description": "Create and publish a new service across the marketplace as an authenticated Technician or Admin (`Role: TECHNICIAN / ADMIN`).\n\n### Request Body Schema:\n```json\n{\n  \"title\": \"Professional CCTV Installation & Wiring\",\n  \"description\": \"Complete setup of 4 to 8 HD CCTV cameras with DVR configuration, mobile app linking, and hidden wiring.\",\n  \"price\": 49.99,\n  \"duration\": 2,\n  \"categoryId\": \"e2b0e04f-6692-4ccb-bdcc-9d78a0b39a43\",\n  \"technicianId\": \"4ac5e074-e98b-4239-8c15-1db76553d0c1\"\n}\n```\n\n### Sample Success Response (`201 Created`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Service created successfully\",\n  \"data\": {\n    \"id\": \"srv_99887766\",\n    \"title\": \"Professional CCTV Installation & Wiring\",\n    \"description\": \"Complete setup of 4 to 8 HD CCTV cameras with DVR configuration, mobile app linking, and hidden wiring.\",\n    \"price\": 49.99,\n    \"duration\": 2,\n    \"categoryId\": \"e2b0e04f-6692-4ccb-bdcc-9d78a0b39a43\",\n    \"technicianId\": \"4ac5e074-e98b-4239-8c15-1db76553d0c1\"\n  }\n}\n```"
           }
@@ -427,9 +516,15 @@
               "raw": "{\n  \"isAvailable\": false\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/technician/availability",
-              "host": ["{{baseUrl}}"],
-              "path": ["technician", "availability"]
+              "raw": "{{baseUrl}}/api/technician/availability",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "technician",
+                "availability"
+              ]
             },
             "description": "Switch the technician's availability status between `true` (online/ready for jobs) and `false` (busy/offline). When `false`, the profile appears offline across public listings.\n\n### Request Body Schema (`true` or `false`):\n```json\n{\n  \"isAvailable\": false\n}\n```\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Technician profile updated successfully\",\n  \"data\": {\n    \"id\": \"c5272d94-d2f9-4649-9db3-f0b4484ea669\",\n    \"isAvailable\": false,\n    \"hourlyRate\": 45\n  }\n}\n```"
           }
@@ -445,9 +540,15 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/technician/bookings",
-              "host": ["{{baseUrl}}"],
-              "path": ["technician", "bookings"]
+              "raw": "{{baseUrl}}/api/technician/bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "technician",
+                "bookings"
+              ]
             },
             "description": "Retrieve all incoming and past bookings assigned to the logged-in technician. Includes explicit `bookingId` alias alongside `id` and complete customer details.\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Technician bookings retrieved successfully\",\n  \"data\": [\n    {\n      \"id\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n      \"bookingId\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n      \"status\": \"REQUESTED\",\n      \"totalPrice\": 49.99,\n      \"bookingDate\": \"2026-07-20T10:00:00.000Z\",\n      \"customer\": {\n        \"name\": \"Evan Customer\",\n        \"phone\": \"+8801711111111\",\n        \"address\": \"House 12, Road 5, Dhanmondi, Dhaka, Bangladesh\"\n      }\n    }\n  ]\n}\n```"
           }
@@ -463,9 +564,16 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/technician/bookings/3624ffb7-3013-42f6-9381-909770ac9b67",
-              "host": ["{{baseUrl}}"],
-              "path": ["technician", "bookings", "3624ffb7-3013-42f6-9381-909770ac9b67"]
+              "raw": "{{baseUrl}}/api/technician/bookings/3624ffb7-3013-42f6-9381-909770ac9b67",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "technician",
+                "bookings",
+                "3624ffb7-3013-42f6-9381-909770ac9b67"
+              ]
             },
             "description": "Retrieve exact details for a single booking assigned to the technician (`200 OK`).\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Booking details retrieved successfully\",\n  \"data\": {\n    \"id\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n    \"bookingId\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n    \"status\": \"REQUESTED\",\n    \"totalPrice\": 49.99\n  }\n}\n```"
           }
@@ -489,11 +597,18 @@
               "raw": "{\n  \"status\": \"ACCEPTED\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/technician/bookings/3624ffb7-3013-42f6-9381-909770ac9b67",
-              "host": ["{{baseUrl}}"],
-              "path": ["technician", "bookings", "3624ffb7-3013-42f6-9381-909770ac9b67"]
+              "raw": "{{baseUrl}}/api/technician/bookings/3624ffb7-3013-42f6-9381-909770ac9b67",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "technician",
+                "bookings",
+                "3624ffb7-3013-42f6-9381-909770ac9b67"
+              ]
             },
-            "description": "Advance the status of a booking. Supports both direct `/:id` and `/:id/status` endpoints.\n\n### Allowed State Transitions:\n- `REQUESTED` ➔ `ACCEPTED` or `DECLINED`\n- `ACCEPTED` / `PAID` ➔ `IN_PROGRESS`\n- `IN_PROGRESS` ➔ `COMPLETED`\n\n### Request Body Schema:\n```json\n{\n  \"status\": \"ACCEPTED\"\n}\n```\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Booking status updated successfully\",\n  \"data\": {\n    \"id\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n    \"bookingId\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n    \"status\": \"ACCEPTED\",\n    \"totalPrice\": 49.99\n  }\n}\n```"
+            "description": "Advance the status of a booking. Supports both direct `/:id` and `/:id/status` endpoints.\n\n### Allowed State Transitions:\n- `REQUESTED` \u2794 `ACCEPTED` or `DECLINED`\n- `ACCEPTED` / `PAID` \u2794 `IN_PROGRESS`\n- `IN_PROGRESS` \u2794 `COMPLETED`\n\n### Request Body Schema:\n```json\n{\n  \"status\": \"ACCEPTED\"\n}\n```\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Booking status updated successfully\",\n  \"data\": {\n    \"id\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n    \"bookingId\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n    \"status\": \"ACCEPTED\",\n    \"totalPrice\": 49.99\n  }\n}\n```"
           }
         }
       ]
@@ -521,9 +636,14 @@
               "raw": "{\n  \"technicianId\": \"4ac5e074-e98b-4239-8c15-1db76553d0c1\",\n  \"bookingId\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n  \"rating\": 5,\n  \"comment\": \"Outstanding service! Fixed the kitchen sink leak in under 20 minutes with zero hassle.\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/reviews",
-              "host": ["{{baseUrl}}"],
-              "path": ["reviews"]
+              "raw": "{{baseUrl}}/api/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "reviews"
+              ]
             },
             "description": "Submit a 1 to 5 star rating and comment for a completed job. Automatically updates the technician's overall `rating` and `totalReviews`.\n\n### Request Body Schema:\n```json\n{\n  \"technicianId\": \"4ac5e074-e98b-4239-8c15-1db76553d0c1\",\n  \"bookingId\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n  \"rating\": 5,\n  \"comment\": \"Outstanding service! Fixed the kitchen sink leak in under 20 minutes with zero hassle.\"\n}\n```\n\n### Sample Success Response (`201 Created`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Review created successfully\",\n  \"data\": {\n    \"id\": \"rev_998877\",\n    \"rating\": 5,\n    \"comment\": \"Outstanding service! Fixed the kitchen sink leak in under 20 minutes with zero hassle.\",\n    \"technicianId\": \"4ac5e074-e98b-4239-8c15-1db76553d0c1\",\n    \"customerId\": \"e4cfac41-a357-4bd6-b1ad-521b831c9f6f\"\n  }\n}\n```"
           }
@@ -545,9 +665,15 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/admin/users",
-              "host": ["{{baseUrl}}"],
-              "path": ["admin", "users"]
+              "raw": "{{baseUrl}}/api/admin/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "users"
+              ]
             },
             "description": "Retrieve all registered users across FixItNow (`Customers`, `Technicians`, and `Admins`).\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Users retrieved successfully\",\n  \"data\": [\n    {\n      \"id\": \"e62f2dc4-70e0-4a9e-ac93-ffc3dddbf4a8\",\n      \"name\": \"Arafat Admin\",\n      \"email\": \"admin@fixitnow.com\",\n      \"role\": \"ADMIN\",\n      \"isBanned\": false\n    }\n  ]\n}\n```"
           }
@@ -571,9 +697,16 @@
               "raw": "{\n  \"isBanned\": true\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/admin/users/e4cfac41-a357-4bd6-b1ad-521b831c9f6f",
-              "host": ["{{baseUrl}}"],
-              "path": ["admin", "users", "e4cfac41-a357-4bd6-b1ad-521b831c9f6f"]
+              "raw": "{{baseUrl}}/api/admin/users/e4cfac41-a357-4bd6-b1ad-521b831c9f6f",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "users",
+                "e4cfac41-a357-4bd6-b1ad-521b831c9f6f"
+              ]
             },
             "description": "Ban or unban a user. When `isBanned: true`, the user is blocked from logging in or performing actions across FixItNow.\n\n### Request Body Schema (`true` to ban, `false` to unban):\n```json\n{\n  \"isBanned\": true\n}\n```\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"User status updated successfully\",\n  \"data\": {\n    \"id\": \"e4cfac41-a357-4bd6-b1ad-521b831c9f6f\",\n    \"name\": \"Evan Customer\",\n    \"isBanned\": true\n  }\n}\n```"
           }
@@ -589,9 +722,15 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/admin/bookings",
-              "host": ["{{baseUrl}}"],
-              "path": ["admin", "bookings"]
+              "raw": "{{baseUrl}}/api/admin/bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "bookings"
+              ]
             },
             "description": "Monitor and inspect every single booking placed across the FixItNow platform (`with explicit bookingId alias`).\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"All bookings retrieved successfully\",\n  \"data\": [\n    {\n      \"id\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n      \"bookingId\": \"3624ffb7-3013-42f6-9381-909770ac9b67\",\n      \"status\": \"REQUESTED\",\n      \"totalPrice\": 49.99,\n      \"customer\": {\n        \"name\": \"Evan Customer\"\n      },\n      \"technician\": {\n        \"name\": \"Devid Technician\"\n      }\n    }\n  ]\n}\n```"
           }
@@ -607,9 +746,15 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/admin/categories",
-              "host": ["{{baseUrl}}"],
-              "path": ["admin", "categories"]
+              "raw": "{{baseUrl}}/api/admin/categories",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "categories"
+              ]
             },
             "description": "Retrieve all service categories as an Admin (`Arafat Admin`).\n\n### Sample Success Response (`200 OK`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Categories retrieved successfully\",\n  \"data\": [\n    {\n      \"id\": \"33a1b2c3-...\",\n      \"name\": \"Plumbing\",\n      \"description\": \"Pipe leakage, sink installation, and sanitary works\"\n    }\n  ]\n}\n```"
           }
@@ -633,9 +778,15 @@
               "raw": "{\n  \"name\": \"Carpentry & Woodwork\",\n  \"description\": \"Furniture repair, door/window fitting, and custom carpentry services.\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/admin/categories",
-              "host": ["{{baseUrl}}"],
-              "path": ["admin", "categories"]
+              "raw": "{{baseUrl}}/api/admin/categories",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "categories"
+              ]
             },
             "description": "Create and publish a brand new service category across the platform. Admin authorization required (`Bearer {{token}}`).\n\n### Request Body Schema:\n```json\n{\n  \"name\": \"Carpentry & Woodwork\",\n  \"description\": \"Furniture repair, door/window fitting, and custom carpentry services.\"\n}\n```\n\n### Sample Success Response (`201 Created`):\n```json\n{\n  \"success\": true,\n  \"message\": \"Category created successfully\",\n  \"data\": {\n    \"id\": \"cat_556677\",\n    \"name\": \"Carpentry & Woodwork\",\n    \"description\": \"Furniture repair, door/window fitting, and custom carpentry services.\",\n    \"createdAt\": \"2026-07-09T10:00:00.000Z\"\n  }\n}\n```"
           }
