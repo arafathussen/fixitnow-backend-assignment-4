@@ -12,9 +12,13 @@
 
 **A Robust, Production-Ready, & Assignment-Compliant REST API for Home Service Bookings**
 
-[🌐 Live API Base URL (Render)](https://fixitnow-api-gh7m.onrender.com) ｜ [📦 Postman Collection](./FixItNow.postman_collection.json)
+<a href="https://fixitnow-api-gh7m.onrender.com" target="_blank">🌐 Live API Base URL (Render)</a> ｜ <a href="./FixItNow.postman_collection.json" target="_blank">📦 Postman Collection</a>
 
 </div>
+
+> [!NOTE]
+> ⏳ **Important Note on Live Cloud API (`Render Free Tier`):**  
+> This live REST API is deployed on Render's Free Tier architecture. If the server instance has been inactive for 15+ minutes, the **initial request (`Cold-Start`) may take 20–30 seconds** to awaken the cloud service. Once awake, all subsequent requests execute instantaneously at maximum speed (`10-25ms`)!
 
 ---
 
@@ -584,8 +588,8 @@ Create and publish a brand new service category across the platform. Admin autho
 
 1. **Clone the Repository:**
 ```bash
-git clone https://github.com/your-username/fixitnow-backend.git
-cd fixitnow-backend
+git clone https://github.com/arafathussen/fixitnow-backend-assignment-4.git
+cd fixitnow-backend-assignment-4
 ```
 2. **Install Dependencies:**
 ```bash
@@ -610,4 +614,6 @@ npm run dev
 ```
 
 ---
-*Built with ❤️ for High-Performance Home Services.*
+
+> 🌟 **Thank You for Exploring & Evaluating FixItNow!**  
+> We sincerely appreciate your valuable time and effort in reviewing this project. The **FixItNow Home Service Marketplace API** is crafted with clean architecture, strict TypeScript typing, comprehensive Zod validation, and industry-standard security practices to deliver a robust, scalable, and delightful backend ecosystem. Have a wonderful and productive day ahead! 🚀✨
