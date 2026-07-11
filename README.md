@@ -12,7 +12,7 @@
 
 **A Robust, Production-Ready, & Assignment-Compliant REST API for Home Service Bookings**
 
-<a href="https://fixitnow-api-gh7m.onrender.com" target="_blank">🌐 Live API Base URL (Render)</a> ｜ <a href="https://documenter.getpostman.com/view/56453818/2sBY4LS2Qe" target="_blank">📖 Live API Documentation (Postman Web)</a> ｜ <a href="./FixItNow.postman_collection.json" target="_blank">📦 Postman Collection File</a>
+<a href="https://fixitnow-api-gh7m.onrender.com" target="_blank">🌐 Live API Base URL (Render)</a> ｜ <a href="https://documenter.getpostman.com/view/56453818/2sBY4LS2ZV" target="_blank">📖 Live API Documentation (Postman Web)</a> ｜ <a href="./FixItNow.postman_collection.json" target="_blank">📦 Postman Collection File</a>
 
 </div>
 
