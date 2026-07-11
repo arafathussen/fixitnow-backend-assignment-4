@@ -48,11 +48,12 @@ const createPaymentSession = async (customerId: string, payload: ICreatePaymentR
     if (process.env.STRIPE_SECRET_KEY && process.env.STRIPE_SECRET_KEY.startsWith("sk_")) {
         try {
             const stripeClient = getStripeClient();
+            const baseUrl = process.env.RENDER_EXTERNAL_URL || process.env.BASE_URL || "http://localhost:5000";
             const session = await stripeClient.checkout.sessions.create({
                 payment_method_types: ["card"],
                 mode: "payment",
-                success_url: `http://localhost:5000/api/payments/success?session_id={CHECKOUT_SESSION_ID}`,
-                cancel_url: `http://localhost:5000/api/payments/cancel`,
+                success_url: `${baseUrl}/api/payments/success?session_id={CHECKOUT_SESSION_ID}`,
+                cancel_url: `${baseUrl}/api/payments/cancel`,
                 client_reference_id: booking.id,
                 customer_email: booking.customer.email,
                 line_items: [
