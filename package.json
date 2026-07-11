@@ -4,17 +4,16 @@
   "description": "FixItNow - Home Service Marketplace Backend API",
   "license": "ISC",
   "type": "module",
-  "main": "api/index.ts",
+  "main": "src/server.ts",
   "prisma": {
     "seed": "tsx prisma/seed.ts"
   },
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "prisma generate && tsup src/index.ts --format esm --clean --out-dir api",
+    "build": "prisma generate && tsc",
     "start": "node dist/server.js"
   },
   "devDependencies": {
-    "tsup": "^8.0.2",
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
