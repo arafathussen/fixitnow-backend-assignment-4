@@ -12,7 +12,7 @@
 
 **A Robust, Production-Ready, & Assignment-Compliant REST API for Home Service Bookings**
 
-[🌐 Live API Base URL (Vercel Demo)](https://fixitnow.vercel.app/api) ｜ [🏠 Local Server Base URL](http://localhost:5000/api) ｜ [📦 Postman Collection](./FixItNow.postman_collection.json)
+[🌐 Live API Base URL (Render)](https://fixitnow-api-gh7m.onrender.com) ｜ [📦 Postman Collection](./FixItNow.postman_collection.json)
 
 </div>
 
@@ -30,24 +30,24 @@ For immediate verification without creating users from scratch, copy any of thes
 
 ### Copy-Paste Ready Login Request Bodies (`POST /api/auth/login`):
 
+#### 👑 1. Admin Login Body (`admin@fixitnow.com`)
 ```json
-// 👑 1. Admin Login Body (`admin@fixitnow.com`)
 {
   "email": "admin@fixitnow.com",
   "password": "admin1234"
 }
 ```
 
+#### 👤 2. Customer Login Body (`customer@gmail.com`)
 ```json
-// 👤 2. Customer Login Body (`customer@gmail.com`)
 {
   "email": "customer@gmail.com",
   "password": "pass1234"
 }
 ```
 
+#### 🔧 3. Technician Login Body (`technician@gmail.com`)
 ```json
-// 🔧 3. Technician Login Body (`technician@gmail.com`)
 {
   "email": "technician@gmail.com",
   "password": "pass1234"
