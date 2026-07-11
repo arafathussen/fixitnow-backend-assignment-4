@@ -34,7 +34,7 @@ async function main() {
         create: {
             email: adminEmail,
             name: "Super Admin",
-            password: "$2a$10$5X8.W/K.Z/K.Z/K.Z/K.Z/uK8X/.q.8/q.8/q.8/q.8/uK8X/.q.8/q", // Placeholder hash for 'admin123'
+            password: "$2b$10$TE3g9HKg7u5ufrqkOk6f4.rlyxKu0p2SnJSHjRqf7YkUKj/x8aLMG", // Hash for 'admin1234'
             role: Role.ADMIN,
             phone: "+8801700000000",
             address: "Dhaka, Bangladesh",
