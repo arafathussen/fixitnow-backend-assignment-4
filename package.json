@@ -4,7 +4,7 @@
   "description": "FixItNow - Home Service Marketplace Backend API",
   "license": "ISC",
   "type": "module",
-  "main": "server.ts",
+  "main": "api/index.ts",
   "prisma": {
     "seed": "tsx prisma/seed.ts"
   },
